@@ -1,5 +1,5 @@
 name = "auth-sample-app"
-main = "src/index.ts"
+main = "src/index.tsx"
 compatibility_date = "2024-04-05"
 compatibility_flags = ["nodejs_compat"]
 
