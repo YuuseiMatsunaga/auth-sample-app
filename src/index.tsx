@@ -1,11 +1,16 @@
 import { Hono } from 'hono'
+import { sessionMiddleware } from '../middleware/session'
 import { Top } from '../components/top'
 
 const app = new Hono()
+app.use('*', sessionMiddleware)
 
-app.get('/', (c) => {
-  const messages = ['Good Morning', 'Good Evening', 'Good Night']
-  return  c.html(<Top messages={messages} />)
+app.get('/',  async (c) => {
+  if (c.req.query('hoge')) {
+    await c.session.set('hoge', c.req.query('hoge'))
+  }
+  const hoge = await c.session.get('hoge') || 'no hoge'
+  return  c.html(<Top messages={[String(hoge)]} />)
 })
 app.get('/health_check', (c) => {
   return c.text('health_check ok')
