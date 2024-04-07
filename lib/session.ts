@@ -42,6 +42,10 @@ class Session {
         this.data = {};
         await this.kv.put(this.sessionId, JSON.stringify(this.data));
     }
+
+    public async destroy(): Promise<void> {
+        await this.kv.delete(this.sessionId);
+    }
 }
   
 export default Session;
