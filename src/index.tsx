@@ -6,12 +6,14 @@ const app = new Hono()
 app.use('*', sessionMiddleware)
 
 app.get('/',  async (c) => {
-  const input_test = c.req.query('test')
-  if (input_test) {
-    await c.session.set('test',input_test)
+  const input_key = c.req.query('key')
+  const input_val = c.req.query('val')
+  const out_key = c.req.query('out') || ''
+  if (input_key && input_val) {
+    await c.session.set(input_key, input_val)
   }
-  const output_test = await c.session.get('test') || 'no test'
-  return  c.text(output_test)
+  const output = await c.session.get(out_key) || 'no test'
+  return  c.text(output)
 })
 app.get('/health_check', (c) => {
   return c.text('health_check ok')
